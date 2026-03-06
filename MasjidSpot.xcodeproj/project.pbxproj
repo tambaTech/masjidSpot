@@ -6,14 +6,80 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		EF48A8712E95A93300BE809F /* MasjidCloudStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF48A8702E95A93300BE809F /* MasjidCloudStore.swift */; };
+		EF48A8732E95AB4400BE809F /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF48A8722E95AB4400BE809F /* DiscoverView.swift */; };
+		EF541D6C2E8EF10D00D1E9D7 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF541D672E8EF10D00D1E9D7 /* WebView.swift */; };
+		EF541D6E2E8EF10D00D1E9D7 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF541D622E8EF10D00D1E9D7 /* ActivityView.swift */; };
+		EF541D6F2E8EF10D00D1E9D7 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF541D632E8EF10D00D1E9D7 /* ActionButton.swift */; };
+		EF541D702E8EF10D00D1E9D7 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF541D662E8EF10D00D1E9D7 /* SafariView.swift */; };
+		EF541D712E8EF10D00D1E9D7 /* MasjidSpotApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF541D6A2E8EF10D00D1E9D7 /* MasjidSpotApp.swift */; };
+		EF541D722E8EF10D00D1E9D7 /* MasjidListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF541D652E8EF10D00D1E9D7 /* MasjidListView.swift */; };
+		EF541D732E8EF10D00D1E9D7 /* MasjidDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF541D642E8EF10D00D1E9D7 /* MasjidDetailView.swift */; };
+		EF541D742E8EF10D00D1E9D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF541D692E8EF10D00D1E9D7 /* Assets.xcassets */; };
+		EF541D7A2E8F067200D1E9D7 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF541D792E8F066C00D1E9D7 /* MapView.swift */; };
+		EF541D7C2E8F0BC600D1E9D7 /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF541D7B2E8F0BC600D1E9D7 /* AnnotationView.swift */; };
+		EF541D7E2E8F0C3D00D1E9D7 /* MapBalloonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF541D7D2E8F0C3A00D1E9D7 /* MapBalloonView.swift */; };
+		EF836E3D2E9835FE0017CDC4 /* CoverImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF836E3C2E9835FE0017CDC4 /* CoverImageView.swift */; };
+		EFA2DB122EA41A3E00C7806F /* CloudMosqueDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA2DB112EA41A3E00C7806F /* CloudMosqueDetailView.swift */; };
+		EFA2DB162EA41CC400C7806F /* LocationGeocoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA2DB152EA41CC400C7806F /* LocationGeocoder.swift */; };
+		EFB4389F2EA0398900657C44 /* MasjidMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB4389E2EA0398900657C44 /* MasjidMapView.swift */; };
+		EFBCD9342EA03D350077FE89 /* Masjid.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBCD9332EA03D2C0077FE89 /* Masjid.swift */; };
+		EFE6DE2C2E921C6E005EFFBA /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE6DE2B2E921C6E005EFFBA /* AboutView.swift */; };
+		EFE6DE2E2E921F64005EFFBA /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE6DE2D2E921F64005EFFBA /* TutorialView.swift */; };
+		EFE6DE302E92A47A005EFFBA /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE6DE2F2E92A47A005EFFBA /* MainView.swift */; };
+		EFF3528D2EA03FE200F0CEB7 /* CloudKitLocationGeocoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF3528C2EA03FE200F0CEB7 /* CloudKitLocationGeocoder.swift */; };
+		EFF3528F2EA0401F00F0CEB7 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF3528E2EA0401F00F0CEB7 /* LocationManager.swift */; };
+		EFF352912EA0409F00F0CEB7 /* CloudMasjidDetailView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF352902EA0409F00F0CEB7 /* CloudMasjidDetailView2.swift */; };
+		EFF352932EA040A700F0CEB7 /* CloudMasjidAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF352922EA040A700F0CEB7 /* CloudMasjidAnnotationView.swift */; };
+		EFF352952EA040B800F0CEB7 /* DirectionsOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF352942EA040B800F0CEB7 /* DirectionsOptionsView.swift */; };
+		EFFDD88C2E9054620061C2C5 /* NewMasjidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFDD88B2E9054620061C2C5 /* NewMasjidView.swift */; };
+		EFFDD8902E90554E0061C2C5 /* MasjidFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFDD88F2E90554E0061C2C5 /* MasjidFormViewModel.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		EF48A86F2E95A78500BE809F /* MasjidSpot.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MasjidSpot.entitlements; sourceTree = "<group>"; };
+		EF48A8702E95A93300BE809F /* MasjidCloudStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasjidCloudStore.swift; sourceTree = "<group>"; };
+		EF48A8722E95AB4400BE809F /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
+		EF541D622E8EF10D00D1E9D7 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
+		EF541D632E8EF10D00D1E9D7 /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
+		EF541D642E8EF10D00D1E9D7 /* MasjidDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasjidDetailView.swift; sourceTree = "<group>"; };
+		EF541D652E8EF10D00D1E9D7 /* MasjidListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasjidListView.swift; sourceTree = "<group>"; };
+		EF541D662E8EF10D00D1E9D7 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
+		EF541D672E8EF10D00D1E9D7 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		EF541D692E8EF10D00D1E9D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EF541D6A2E8EF10D00D1E9D7 /* MasjidSpotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasjidSpotApp.swift; sourceTree = "<group>"; };
+		EF541D792E8F066C00D1E9D7 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		EF541D7B2E8F0BC600D1E9D7 /* AnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
+		EF541D7D2E8F0C3A00D1E9D7 /* MapBalloonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBalloonView.swift; sourceTree = "<group>"; };
+		EF836E3C2E9835FE0017CDC4 /* CoverImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverImageView.swift; sourceTree = "<group>"; };
+		EFA2DB112EA41A3E00C7806F /* CloudMosqueDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudMosqueDetailView.swift; sourceTree = "<group>"; };
+		EFA2DB152EA41CC400C7806F /* LocationGeocoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationGeocoder.swift; sourceTree = "<group>"; };
+		EFB4389E2EA0398900657C44 /* MasjidMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasjidMapView.swift; sourceTree = "<group>"; };
 		EFB64E892E807F2500ACEA58 /* MasjidSpot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MasjidSpot.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFBCD9332EA03D2C0077FE89 /* Masjid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Masjid.swift; sourceTree = "<group>"; };
+		EFE6DE2B2E921C6E005EFFBA /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		EFE6DE2D2E921F64005EFFBA /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
+		EFE6DE2F2E92A47A005EFFBA /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		EFF3528C2EA03FE200F0CEB7 /* CloudKitLocationGeocoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitLocationGeocoder.swift; sourceTree = "<group>"; };
+		EFF3528E2EA0401F00F0CEB7 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		EFF352902EA0409F00F0CEB7 /* CloudMasjidDetailView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudMasjidDetailView2.swift; sourceTree = "<group>"; };
+		EFF352922EA040A700F0CEB7 /* CloudMasjidAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudMasjidAnnotationView.swift; sourceTree = "<group>"; };
+		EFF352942EA040B800F0CEB7 /* DirectionsOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsOptionsView.swift; sourceTree = "<group>"; };
+		EFFDD88B2E9054620061C2C5 /* NewMasjidView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMasjidView.swift; sourceTree = "<group>"; };
+		EFFDD88F2E90554E0061C2C5 /* MasjidFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasjidFormViewModel.swift; sourceTree = "<group>"; };
+		EFFDD8992E90819A0061C2C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		EFB64E8B2E807F2500ACEA58 /* MasjidSpot */ = {
+		EF541D752E8EF19700D1E9D7 /* Extensions */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = MasjidSpot;
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		EFFDD8952E907D870061C2C5 /* Util */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Util;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -29,10 +95,65 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EF541D612E8EF10D00D1E9D7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EFBCD9332EA03D2C0077FE89 /* Masjid.swift */,
+				EF48A8702E95A93300BE809F /* MasjidCloudStore.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		EF541D682E8EF10D00D1E9D7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				EFA2DB152EA41CC400C7806F /* LocationGeocoder.swift */,
+				EFA2DB112EA41A3E00C7806F /* CloudMosqueDetailView.swift */,
+				EFE6DE2B2E921C6E005EFFBA /* AboutView.swift */,
+				EF541D632E8EF10D00D1E9D7 /* ActionButton.swift */,
+				EF541D622E8EF10D00D1E9D7 /* ActivityView.swift */,
+				EF541D7B2E8F0BC600D1E9D7 /* AnnotationView.swift */,
+				EFF3528C2EA03FE200F0CEB7 /* CloudKitLocationGeocoder.swift */,
+				EFF352922EA040A700F0CEB7 /* CloudMasjidAnnotationView.swift */,
+				EFF352902EA0409F00F0CEB7 /* CloudMasjidDetailView2.swift */,
+				EF836E3C2E9835FE0017CDC4 /* CoverImageView.swift */,
+				EFF352942EA040B800F0CEB7 /* DirectionsOptionsView.swift */,
+				EF48A8722E95AB4400BE809F /* DiscoverView.swift */,
+				EFF3528E2EA0401F00F0CEB7 /* LocationManager.swift */,
+				EFE6DE2F2E92A47A005EFFBA /* MainView.swift */,
+				EF541D7D2E8F0C3A00D1E9D7 /* MapBalloonView.swift */,
+				EF541D792E8F066C00D1E9D7 /* MapView.swift */,
+				EF541D642E8EF10D00D1E9D7 /* MasjidDetailView.swift */,
+				EF541D652E8EF10D00D1E9D7 /* MasjidListView.swift */,
+				EFB4389E2EA0398900657C44 /* MasjidMapView.swift */,
+				EFFDD88B2E9054620061C2C5 /* NewMasjidView.swift */,
+				EF541D662E8EF10D00D1E9D7 /* SafariView.swift */,
+				EFE6DE2D2E921F64005EFFBA /* TutorialView.swift */,
+				EF541D672E8EF10D00D1E9D7 /* WebView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		EF541D6B2E8EF10D00D1E9D7 /* MasjidSpot */ = {
+			isa = PBXGroup;
+			children = (
+				EF541D692E8EF10D00D1E9D7 /* Assets.xcassets */,
+				EF541D752E8EF19700D1E9D7 /* Extensions */,
+				EFFDD8992E90819A0061C2C5 /* Info.plist */,
+				EF48A86F2E95A78500BE809F /* MasjidSpot.entitlements */,
+				EF541D6A2E8EF10D00D1E9D7 /* MasjidSpotApp.swift */,
+				EF541D612E8EF10D00D1E9D7 /* Model */,
+				EFFDD8952E907D870061C2C5 /* Util */,
+				EF541D682E8EF10D00D1E9D7 /* View */,
+				EFFDD88D2E9055020061C2C5 /* ViewModel */,
+			);
+			path = MasjidSpot;
+			sourceTree = "<group>";
+		};
 		EFB64E802E807F2500ACEA58 = {
 			isa = PBXGroup;
 			children = (
-				EFB64E8B2E807F2500ACEA58 /* MasjidSpot */,
+				EF541D6B2E8EF10D00D1E9D7 /* MasjidSpot */,
 				EFB64E8A2E807F2500ACEA58 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +164,14 @@
 				EFB64E892E807F2500ACEA58 /* MasjidSpot.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		EFFDD88D2E9055020061C2C5 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				EFFDD88F2E90554E0061C2C5 /* MasjidFormViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -61,7 +190,8 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				EFB64E8B2E807F2500ACEA58 /* MasjidSpot */,
+				EF541D752E8EF19700D1E9D7 /* Extensions */,
+				EFFDD8952E907D870061C2C5 /* Util */,
 			);
 			name = MasjidSpot;
 			packageProductDependencies = (
@@ -78,7 +208,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2600;
-				LastUpgradeCheck = 2600;
+				LastUpgradeCheck = 2610;
 				TargetAttributes = {
 					EFB64E882E807F2500ACEA58 = {
 						CreatedOnToolsVersion = 26.0;
@@ -109,6 +239,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF541D742E8EF10D00D1E9D7 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +250,33 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF541D6C2E8EF10D00D1E9D7 /* WebView.swift in Sources */,
+				EF836E3D2E9835FE0017CDC4 /* CoverImageView.swift in Sources */,
+				EFFDD88C2E9054620061C2C5 /* NewMasjidView.swift in Sources */,
+				EFF352912EA0409F00F0CEB7 /* CloudMasjidDetailView2.swift in Sources */,
+				EFA2DB122EA41A3E00C7806F /* CloudMosqueDetailView.swift in Sources */,
+				EFE6DE2E2E921F64005EFFBA /* TutorialView.swift in Sources */,
+				EFE6DE2C2E921C6E005EFFBA /* AboutView.swift in Sources */,
+				EFE6DE302E92A47A005EFFBA /* MainView.swift in Sources */,
+				EF541D6E2E8EF10D00D1E9D7 /* ActivityView.swift in Sources */,
+				EF541D6F2E8EF10D00D1E9D7 /* ActionButton.swift in Sources */,
+				EF541D702E8EF10D00D1E9D7 /* SafariView.swift in Sources */,
+				EFBCD9342EA03D350077FE89 /* Masjid.swift in Sources */,
+				EFF352932EA040A700F0CEB7 /* CloudMasjidAnnotationView.swift in Sources */,
+				EF48A8732E95AB4400BE809F /* DiscoverView.swift in Sources */,
+				EF541D7C2E8F0BC600D1E9D7 /* AnnotationView.swift in Sources */,
+				EF541D712E8EF10D00D1E9D7 /* MasjidSpotApp.swift in Sources */,
+				EFA2DB162EA41CC400C7806F /* LocationGeocoder.swift in Sources */,
+				EF541D7A2E8F067200D1E9D7 /* MapView.swift in Sources */,
+				EFF352952EA040B800F0CEB7 /* DirectionsOptionsView.swift in Sources */,
+				EFF3528D2EA03FE200F0CEB7 /* CloudKitLocationGeocoder.swift in Sources */,
+				EFB4389F2EA0398900657C44 /* MasjidMapView.swift in Sources */,
+				EFFDD8902E90554E0061C2C5 /* MasjidFormViewModel.swift in Sources */,
+				EF541D722E8EF10D00D1E9D7 /* MasjidListView.swift in Sources */,
+				EF541D732E8EF10D00D1E9D7 /* MasjidDetailView.swift in Sources */,
+				EF541D7E2E8F0C3D00D1E9D7 /* MapBalloonView.swift in Sources */,
+				EFF3528F2EA0401F00F0CEB7 /* LocationManager.swift in Sources */,
+				EF48A8712E95A93300BE809F /* MasjidCloudStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,6 +317,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 7HA34S7STN;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -182,6 +341,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -221,6 +381,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 7HA34S7STN;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -237,6 +398,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
@@ -246,14 +408,22 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MasjidSpot/MasjidSpot.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 7HA34S7STN;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_CAMERA = YES;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MasjidSpot/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow the app to access your camera to take a photo of the masjid.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Please allow the app to access your photo library to select a photo of the masjid.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -264,7 +434,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
@@ -274,13 +444,14 @@
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Debug;
@@ -290,14 +461,22 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MasjidSpot/MasjidSpot.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 7HA34S7STN;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_CAMERA = YES;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MasjidSpot/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow the app to access your camera to take a photo of the masjid.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Please allow the app to access your photo library to select a photo of the masjid.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -308,7 +487,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
@@ -318,13 +497,14 @@
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Release;

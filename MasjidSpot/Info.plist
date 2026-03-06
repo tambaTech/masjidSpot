@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleIdentifier</key>
+	<string></string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>You need to grant the app permission to access your photo library so that you can select the photo of the masjid you visited.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>To take photos, you need to grant the app access to your camera.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need your location to show nearby masjids.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app requires access to your location even when the app is in the background.</string>
+	<key>CFBundleExecutable</key>
+	<string></string>
+</dict>
+</plist>
