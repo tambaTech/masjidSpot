@@ -48,7 +48,8 @@ extension LocationManager: CLLocationManagerDelegate {
             self.authorizationStatus = manager.authorizationStatus
             
             if manager.authorizationStatus == .authorizedWhenInUse || manager.authorizationStatus == .authorizedAlways {
-                self.startUpdatingLocation()
+                // Request location once instead of continuous updates
+                manager.requestLocation()
             }
         }
     }

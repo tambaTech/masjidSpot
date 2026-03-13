@@ -13,6 +13,29 @@ import SwiftUI
     var cloudMosques: [CKRecord] = []
     var isLoading = false
     var errorMessage: String?
+    var iCloudAvailable = false
+    
+    init() {
+        checkiCloudStatus()
+    }
+    
+    private func checkiCloudStatus() {
+        Task {
+            do {
+                let status = try await CKContainer.default().accountStatus()
+                await MainActor.run {
+                    self.iCloudAvailable = (status == .available)
+                    if !self.iCloudAvailable {
+                        self.errorMessage = "iCloud is not available. Please sign in to your Apple ID in Settings."
+                    }
+                }
+            } catch {
+                await MainActor.run {
+                    self.errorMessage = "Failed to check iCloud status: \(error.localizedDescription)"
+                }
+            }
+        }
+    }
     
     func fetchCloudMosques() async {
         await MainActor.run {
@@ -33,9 +56,14 @@ import SwiftUI
             
             let results = try await publicDatabase.records(matching: query)
             
-            // Process results directly without intermediate variable
-            let processedMosques = try results.matchResults.map { result in
-                try result.1.get()
+            // Process results and handle partial failures gracefully
+            let processedMosques = results.matchResults.compactMap { (recordID, result) -> CKRecord? in
+                do {
+                    return try result.get()
+                } catch {
+                    print("Failed to fetch record \(recordID): \(error.localizedDescription)")
+                    return nil
+                }
             }
             
             await MainActor.run {
@@ -55,48 +83,49 @@ import SwiftUI
         await fetchCloudMosques()
     }
     
-    func saveRecordToCloud(mosque: Masjid) {
+    func saveRecordToCloud(mosque: Masjid) async throws {
+        // Prepare the record to save
+        let record = CKRecord(recordType: "Masjid")
+        record.setValue(mosque.name, forKey: "name")
+        record.setValue(mosque.location, forKey: "location")
+        record.setValue(mosque.website, forKey: "website")
+        record.setValue(mosque.myMasjidUrl, forKey: "myMasjidUrl")
+        record.setValue(mosque.phone, forKey: "phone")
+        record.setValue(mosque.summary, forKey: "description")
 
-            // Prepare the record to save
-            let record = CKRecord(recordType: "Masjid")
-            record.setValue(mosque.name, forKey: "name")
-            record.setValue(mosque.location, forKey: "location")
-            record.setValue(mosque.website, forKey: "website")
-            record.setValue(mosque.myMasjidUrl, forKey: "myMasjidUrl")
-            record.setValue(mosque.phone, forKey: "phone")
-            record.setValue(mosque.summary, forKey: "description")
-
-            // Resize the image
-            let originalImage = mosque.image
-            let scalingFactor = (originalImage.size.width > 1024) ? 1024 / originalImage.size.width : 1.0
-            
-            guard let imageData = originalImage.pngData() else {
-                return
-            }
-            
-            let scaledImage = UIImage(data: imageData, scale: scalingFactor)!
-
-            // Write the image to local file for temporary use
-            let imageFilePath = NSTemporaryDirectory() + mosque.name
-            let imageFileURL = URL(fileURLWithPath: imageFilePath)
-            try? scaledImage.jpegData(compressionQuality: 0.8)?.write(to: imageFileURL)
-
-            // Create image asset for upload
-            let imageAsset = CKAsset(fileURL: imageFileURL)
-            record.setValue(imageAsset, forKey: "image")
-
-            // Get the Public iCloud Database
-            let publicDatabase = CKContainer.default().publicCloudDatabase
-
-            // Save the record to iCloud
-            publicDatabase.save(record, completionHandler: { (record, error) -> Void  in
-
-                if error != nil {
-                    print(error.debugDescription)
-                }
-
-                // Remove temp file
-                try? FileManager.default.removeItem(at: imageFileURL)
-            })
+        // Resize the image
+        let originalImage = mosque.image
+        let scalingFactor = (originalImage.size.width > 1024) ? 1024 / originalImage.size.width : 1.0
+        
+        guard let imageData = originalImage.pngData() else {
+            throw NSError(domain: "MasjidCloudStore", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to convert image to data"])
         }
+        
+        let scaledImage = UIImage(data: imageData, scale: scalingFactor)!
+
+        // Write the image to local file for temporary use
+        let imageFilePath = NSTemporaryDirectory() + mosque.name.replacingOccurrences(of: "/", with: "-")
+        let imageFileURL = URL(fileURLWithPath: imageFilePath)
+        try scaledImage.jpegData(compressionQuality: 0.8)?.write(to: imageFileURL)
+
+        // Create image asset for upload
+        let imageAsset = CKAsset(fileURL: imageFileURL)
+        record.setValue(imageAsset, forKey: "image")
+
+        // Get the Public iCloud Database
+        let publicDatabase = CKContainer.default().publicCloudDatabase
+
+        // Save the record to iCloud using modern async/await API
+        do {
+            _ = try await publicDatabase.save(record)
+            print("✅ Successfully saved mosque to CloudKit: \(mosque.name)")
+            
+            // Clean up temp file
+            try? FileManager.default.removeItem(at: imageFileURL)
+        } catch {
+            // Clean up temp file even on error
+            try? FileManager.default.removeItem(at: imageFileURL)
+            throw error
+        }
+    }
 }

@@ -55,13 +55,3 @@ class LocationGeocoder {
     }
 }
 
-enum GeocodingError: LocalizedError {
-    case locationNotFound
-    
-    var errorDescription: String? {
-        switch self {
-        case .locationNotFound:
-            return "Location not found"
-        }
-    }
-}

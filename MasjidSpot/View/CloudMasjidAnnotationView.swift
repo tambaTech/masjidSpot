@@ -12,10 +12,10 @@ import CoreLocation
 
 struct CloudMosqueAnnotationView: View {
     var mosque: CKRecord
-    @StateObject private var locationGeocoder = CloudKitLocationGeocoder()
+    // Remove @StateObject - geocoder should be passed in or accessed from environment
     
     var body: some View {
-        VStack {
+        VStack(spacing: 4) {
             ZStack {
                 MapBalloonView()
                     .frame(width: 100, height: 70)
@@ -31,14 +31,22 @@ struct CloudMosqueAnnotationView: View {
                 } else {
                     Image(systemName: "building.2")
                         .font(.title2)
-                        .foregroundColor(.brandPrimary)
+                        .foregroundColor(.white)
                 }
             }
+            
             Text(mosque["name"] as? String ?? "Unknown")
-                .font(.caption)
-                .fontWeight(.semibold)
-                .foregroundStyle(.color)
-                .lineLimit(1)
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(.white)
+                .lineLimit(2)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(
+                    Capsule()
+                        .fill(Color.black.opacity(0.75))
+                )
+                .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 1)
         }
         .contextMenu {
             Button(action: {
@@ -84,13 +92,8 @@ struct CloudMosqueAnnotationView: View {
             return
         }
         
-        // Try to get cached coordinate first
-        if let coordinate = locationGeocoder.getCachedCoordinate(for: locationString) {
-            openMapsWithCoordinate(coordinate)
-        } else {
-            // Fallback to location string
-            openMapsWithLocationString(locationString)
-        }
+        // Simplified - just open Maps with the location string
+        openMapsWithLocationString(locationString)
     }
     
     private func openMapsWithCoordinate(_ coordinate: CLLocationCoordinate2D) {

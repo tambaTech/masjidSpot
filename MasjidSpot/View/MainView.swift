@@ -22,16 +22,16 @@ struct MainView: View {
                 }
                 .tag(0)
             
-            DiscoverView()
+            BrowseView()
                  .tabItem {
-                     Label("Discover Masjids", systemImage: "safari")
+                     Label("Browse", systemImage: "safari")
                  }
                  .tag(1)
                
             
             MasjidMapView()
                 .tabItem {
-                    Label("Masjid Map", systemImage: "map.fill")
+                    Label("Map", systemImage: "map.fill")
                 }
                 .tag(2)
               

@@ -90,12 +90,12 @@ struct CloudMasjidDetailView: View {
                 }
                 .padding(.horizontal)
                 
-                NavigationLink(destination: MapView(location: masjid.location, masjid: masjid)
+                NavigationLink(destination: MasjidDetailMapView(location: masjid.location, masjid: masjid)
                     .toolbarBackground(.hidden, for: .navigationBar)
                     .edgesIgnoringSafeArea(.all)
                 ) {
                     ZStack {
-                        MapView(location: masjid.location, interactionMode: [], masjid: masjid)
+                        MasjidDetailMapView(location: masjid.location, interactionMode: [], masjid: masjid)
                             .frame(minWidth: 0, maxWidth: .infinity)
                             .frame(height: 200)
                             .cornerRadius(20)

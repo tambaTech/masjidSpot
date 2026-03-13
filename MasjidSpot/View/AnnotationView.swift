@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AnnotationView: View {
+struct MasjidAnnotationView: View {
     var masjid: Masjid
     
     
@@ -35,7 +35,7 @@ struct AnnotationView: View {
 }
 
 #Preview {
-    AnnotationView(masjid: Masjid(
+    MasjidAnnotationView(masjid: Masjid(
         name: "Masjid al-Nabawi",
         location: "Al Haram, Madinah 42311, Saudi Arabia",
         phone: "+966 14 823 2400",

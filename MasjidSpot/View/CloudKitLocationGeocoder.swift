@@ -10,6 +10,24 @@ import CoreLocation
 import CloudKit
 import Combine
 
+/// Errors that can occur during geocoding
+enum GeocodingError: LocalizedError {
+    case locationNotFound
+    case invalidAddress
+    case rateLimitExceeded
+    
+    var errorDescription: String? {
+        switch self {
+        case .locationNotFound:
+            return "Could not find coordinates for this location"
+        case .invalidAddress:
+            return "The address provided is invalid"
+        case .rateLimitExceeded:
+            return "Too many geocoding requests. Please try again later."
+        }
+    }
+}
+
 @MainActor
 class CloudKitLocationGeocoder: ObservableObject {
     private let geocoder = CLGeocoder()

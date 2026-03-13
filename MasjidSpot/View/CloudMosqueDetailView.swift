@@ -18,180 +18,348 @@ struct CloudMosqueDetailView: View {
     // State variables for sheet presentations
     @State private var showWebsite = false
     @State private var showMyMasjid = false
+    @State private var showingLookAround = false
+    @State private var lookAroundScene: MKLookAroundScene?
+    @State private var isLoadingLookAround = false
+    @State private var showingLookAroundAlert = false
+    @State private var lookAroundErrorMessage = ""
+    
+    // Enhanced UX state
+    @State private var showingShareSheet = false
+    @State private var copiedToClipboard = false
+    @State private var scrollOffset: CGFloat = 0
+    @State private var imageHeight: CGFloat = 300
     
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    // Image
-                    if let imageAsset = mosque["image"] as? CKAsset,
-                       let imageData = try? Data(contentsOf: imageAsset.fileURL!),
-                       let image = UIImage(data: imageData) {
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .frame(height: 445)
-                    } else {
-                        Rectangle()
-                            .fill(Color.gray.opacity(0.3))
-                            .frame(height: 250)
-                            .cornerRadius(12)
-                            .overlay(
-                                Image(systemName: "building.2")
-                                    .font(.system(size: 50))
-                                    .foregroundColor(.gray)
-                            )
+                VStack(alignment: .leading, spacing: 0) {
+                    // Enhanced Hero Image with Parallax Effect
+                    GeometryReader { geometry in
+                        let offset = geometry.frame(in: .named("scroll")).minY
+                        let height = imageHeight + max(0, offset)
+                        
+                        Group {
+                            if let imageAsset = mosque["image"] as? CKAsset,
+                               let imageData = try? Data(contentsOf: imageAsset.fileURL!),
+                               let image = UIImage(data: imageData) {
+                                Image(uiImage: image)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: geometry.size.width, height: height)
+                                    .clipped()
+                                    .offset(y: -max(0, offset))
+                            } else {
+                                Rectangle()
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [Color.blue.opacity(0.3), Color.purple.opacity(0.3)],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        )
+                                    )
+                                    .frame(width: geometry.size.width, height: height)
+                                    .overlay(
+                                        VStack(spacing: 12) {
+                                            Image(systemName: "building.2.fill")
+                                                .font(.system(size: 60))
+                                                .foregroundStyle(.white.opacity(0.8))
+                                            Text("No Image Available")
+                                                .font(.subheadline)
+                                                .foregroundStyle(.white.opacity(0.7))
+                                        }
+                                    )
+                                    .offset(y: -max(0, offset))
+                            }
+                        }
                     }
+                    .frame(height: imageHeight)
                     
-                    VStack(alignment: .leading, spacing: 16) {
-                        // Name
-                        Text(mosque["name"] as? String ?? "Unknown")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                        
-                        // Location
-                        if let location = mosque["location"] as? String, !location.isEmpty {
-                            Label(location, systemImage: "location")
-                                .font(.body)
-                                .foregroundColor(.secondary)
-                        }
-                        
-                        // Phone
-                        if let phone = mosque["phone"] as? String, !phone.isEmpty {
-                            Label(phone, systemImage: "phone")
-                                .font(.body)
-                                .foregroundColor(.secondary)
-                        }
-                        
-                        // Description
-                        if let description = mosque["description"] as? String, !description.isEmpty {
-                            Text("About")
-                                .font(.headline)
-                                .padding(.top)
-                            
-                            Text(description)
-                                .font(.body)
-                                .lineLimit(nil)
-                        }
-                        
-                        // Website
-                        if let website = mosque["website"] as? String, !website.isEmpty {
-                            Button(action: {
-                                showWebsite = true
-                            }) {
-                                HStack {
-                                    Image(systemName: "safari.fill")
-                                        .font(.title2)
-                                    Text("Visit Website")
-                                        .font(.headline)
-                                    Spacer()
-                                    Image(systemName: "chevron.right")
+                    // Content Section
+                    VStack(alignment: .leading, spacing: 20) {
+                        // Header with Name and Quick Actions
+                        VStack(alignment: .leading, spacing: 12) {
+                            HStack(alignment: .top) {
+                                Text(mosque["name"] as? String ?? "Unknown")
+                                    .font(.system(size: 28, weight: .bold))
+                                    .foregroundStyle(.primary)
+                                
+                                Spacer()
+                                
+                                // Quick Share Button
+                                Button {
+                                    provideFeedback()
+                                    showingShareSheet = true
+                                } label: {
+                                    Image(systemName: "square.and.arrow.up")
+                                        .font(.system(size: 20, weight: .semibold))
+                                        .foregroundStyle(.blue)
+                                        .frame(width: 44, height: 44)
+                                        .background(.blue.opacity(0.1))
+                                        .clipShape(Circle())
                                 }
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(Color.blue)
-                                .cornerRadius(12)
-                            }
-                        }
-                        
-                        // My Masjid URL
-                        if let myMasjidUrl = mosque["myMasjidUrl"] as? String, !myMasjidUrl.isEmpty {
-                            Button(action: {
-                                showMyMasjid = true
-                            }) {
-                                HStack {
-                                    Image(systemName: "clock.fill")
-                                        .font(.title2)
-                                    Text("Prayer Times")
-                                        .font(.headline)
-                                    Spacer()
-                                    Image(systemName: "chevron.right")
-                                }
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(Color.pink)
-                                .cornerRadius(12)
-                            }
-                        }
-                        
-                        // Action Buttons
-                        VStack(spacing: 12) {
-                            // Directions Button
-                            Button(action: {
-                                openDirections()
-                            }) {
-                                HStack {
-                                    Image(systemName: "car.fill")
-                                        .font(.title2)
-                                    Text("Get Directions")
-                                        .font(.headline)
-                                    Spacer()
-                                    Image(systemName: "chevron.right")
-                                }
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(Color.blue)
-                                .cornerRadius(12)
                             }
                             
-                            // Call Button (if phone number exists)
-                            if let phone = mosque["phone"] as? String, !phone.isEmpty {
-                                Button(action: {
-                                    callMosque(phone: phone)
-                                }) {
-                                    HStack {
-                                        Image(systemName: "phone.fill")
-                                            .font(.title2)
-                                        Text("Call Mosque")
-                                            .font(.headline)
-                                        Spacer()
-                                        Image(systemName: "chevron.right")
+                            // Location with copy functionality
+                            if let location = mosque["location"] as? String, !location.isEmpty {
+                                Button {
+                                    copyToClipboard(location)
+                                } label: {
+                                    HStack(spacing: 8) {
+                                        Image(systemName: "location.fill")
+                                            .font(.system(size: 16))
+                                        Text(location)
+                                            .font(.subheadline)
+                                            .multilineTextAlignment(.leading)
+                                        
+                                        if copiedToClipboard {
+                                            Image(systemName: "checkmark.circle.fill")
+                                                .foregroundStyle(.green)
+                                                .transition(.scale.combined(with: .opacity))
+                                        }
                                     }
-                                    .foregroundColor(.white)
-                                    .padding()
-                                    .background(Color.green)
-                                    .cornerRadius(12)
+                                    .foregroundStyle(.secondary)
                                 }
+                                .buttonStyle(.plain)
+                            }
+                            
+                            // Phone with direct call functionality
+                            if let phone = mosque["phone"] as? String, !phone.isEmpty {
+                                Button {
+                                    callMosque(phone: phone)
+                                } label: {
+                                    HStack(spacing: 8) {
+                                        Image(systemName: "phone.fill")
+                                            .font(.system(size: 16))
+                                        Text(phone)
+                                            .font(.subheadline)
+                                    }
+                                    .foregroundStyle(.secondary)
+                                }
+                                .buttonStyle(.plain)
                             }
                         }
-                        .padding(.top)
+                        .padding(.horizontal, 20)
+                        .padding(.top, 20)
+                        
+                        // Quick Action Buttons Row
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 12) {
+                                // Prayer Times Button
+                                if let myMasjidUrl = mosque["myMasjidUrl"] as? String, !myMasjidUrl.isEmpty {
+                                    QuickActionButton(
+                                        icon: "clock.fill",
+                                        title: "Prayer Times",
+                                        color: .pink
+                                    ) {
+                                        provideFeedback()
+                                        showMyMasjid = true
+                                    }
+                                }
+                                
+                                // Website Button
+                                if let website = mosque["website"] as? String, !website.isEmpty {
+                                    QuickActionButton(
+                                        icon: "safari.fill",
+                                        title: "Website",
+                                        color: .blue
+                                    ) {
+                                        provideFeedback()
+                                        showWebsite = true
+                                    }
+                                }
+                                
+                                // Look Around Button
+                                QuickActionButton(
+                                    icon: isLoadingLookAround ? "" : "binoculars.fill",
+                                    title: isLoadingLookAround ? "Loading..." : "Look Around",
+                                    color: .purple,
+                                    isLoading: isLoadingLookAround
+                                ) {
+                                    provideFeedback()
+                                    Task {
+                                        await requestLookAround()
+                                    }
+                                }
+                                .disabled(isLoadingLookAround)
+                                
+                                // Directions Button
+                                QuickActionButton(
+                                    icon: "car.fill",
+                                    title: "Directions",
+                                    color: .green
+                                ) {
+                                    provideFeedback()
+                                    openDirections()
+                                }
+                            }
+                            .padding(.horizontal, 20)
+                        }
+                        
+                        Divider()
+                            .padding(.horizontal, 20)
+                        
+                        // Description Section
+                        if let description = mosque["description"] as? String, !description.isEmpty {
+                            VStack(alignment: .leading, spacing: 12) {
+                                Label("About", systemImage: "info.circle.fill")
+                                    .font(.headline)
+                                    .foregroundStyle(.primary)
+                                
+                                Text(description)
+                                    .font(.body)
+                                    .foregroundStyle(.secondary)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                            .padding(.horizontal, 20)
+                        }
+                        
+                        // Additional spacing at bottom
+                        Spacer(minLength: 20)
                     }
-                    
                 }
-                .padding(.horizontal, 20) // Consistent horizontal padding
-                .padding(.vertical, 16) // Add vertical padding
-                .safeAreaPadding(.horizontal, 4) // Additional safe area padding
             }
-            
-            .navigationTitle("Mosque Details")
+            .coordinateSpace(name: "scroll")
+            .ignoresSafeArea(edges: .top)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .principal) {
+                    // Show title when scrolled
+                    Text(mosque["name"] as? String ?? "")
+                        .font(.headline)
+                        .opacity(scrollOffset < -100 ? 1 : 0)
+                }
+                
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
+                    Button {
                         dismiss()
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.system(size: 24))
+                            .foregroundStyle(.secondary)
+                            .symbolRenderingMode(.hierarchical)
                     }
                 }
             }
         }
-        .background(Color(.systemBackground)) // Ensure proper background
         .sheet(isPresented: $showWebsite) {
             if let website = mosque["website"] as? String, !website.isEmpty {
                 SafariView(url: website)
-            } else {
-                EmptyView()
             }
         }
         .sheet(isPresented: $showMyMasjid) {
             if let myMasjidUrl = mosque["myMasjidUrl"] as? String, !myMasjidUrl.isEmpty {
                 SafariView(url: myMasjidUrl)
-            } else {
-                EmptyView()
             }
+        }
+        .sheet(isPresented: $showingLookAround) {
+            if let lookAroundScene = lookAroundScene {
+                NavigationStack {
+                    LookAroundViewController(scene: lookAroundScene)
+                        .ignoresSafeArea()
+                        .navigationTitle("Look Around")
+                        .navigationBarTitleDisplayMode(.inline)
+                        .toolbar {
+                            ToolbarItem(placement: .topBarTrailing) {
+                                Button("Done") {
+                                    showingLookAround = false
+                                }
+                            }
+                        }
+                }
+            }
+        }
+        .sheet(isPresented: $showingShareSheet) {
+            if let name = mosque["name"] as? String,
+               let location = mosque["location"] as? String {
+                ShareSheet(items: ["\(name)\n\(location)"])
+            }
+        }
+        .alert("Look Around Unavailable", isPresented: $showingLookAroundAlert) {
+            Button("OK") { }
+        } message: {
+            Text(lookAroundErrorMessage)
         }
     }
     
     // MARK: - Helper Functions
+    
+    private func provideFeedback() {
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.impactOccurred()
+    }
+    
+    private func copyToClipboard(_ text: String) {
+        UIPasteboard.general.string = text
+        provideFeedback()
+        
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+            copiedToClipboard = true
+        }
+        
+        // Reset after 2 seconds
+        Task {
+            try? await Task.sleep(for: .seconds(2))
+            await MainActor.run {
+                withAnimation {
+                    copiedToClipboard = false
+                }
+            }
+        }
+    }
+    
+    @MainActor
+    private func requestLookAround() async {
+        guard let locationString = mosque["location"] as? String, !locationString.isEmpty else {
+            lookAroundErrorMessage = "No location available for this mosque."
+            showingLookAroundAlert = true
+            return
+        }
+        
+        isLoadingLookAround = true
+        
+        // Try to get cached coordinate first
+        var coordinate: CLLocationCoordinate2D?
+        
+        if let cached = locationGeocoder.getCachedCoordinate(for: locationString) {
+            coordinate = cached
+        } else {
+            // Geocode the location
+            do {
+                coordinate = try await locationGeocoder.geocodeLocation(locationString)
+            } catch {
+                isLoadingLookAround = false
+                lookAroundErrorMessage = "Unable to find coordinates for this location."
+                showingLookAroundAlert = true
+                return
+            }
+        }
+        
+        guard let coord = coordinate else {
+            isLoadingLookAround = false
+            lookAroundErrorMessage = "Unable to get coordinates for this mosque."
+            showingLookAroundAlert = true
+            return
+        }
+        
+        let request = MKLookAroundSceneRequest(coordinate: coord)
+        
+        do {
+            if let scene = try await request.scene {
+                isLoadingLookAround = false
+                lookAroundScene = scene
+                showingLookAround = true
+            } else {
+                isLoadingLookAround = false
+                lookAroundErrorMessage = "Look Around is not available for this mosque location. Coverage may be limited in this area."
+                showingLookAroundAlert = true
+            }
+        } catch {
+            isLoadingLookAround = false
+            lookAroundErrorMessage = "Failed to load Look Around: \(error.localizedDescription)"
+            showingLookAroundAlert = true
+        }
+    }
     
     private func openDirections() {
         guard let locationString = mosque["location"] as? String, !locationString.isEmpty else {
@@ -250,6 +418,49 @@ struct CloudMosqueDetailView: View {
         }
     }
 }
+
+// MARK: - Supporting Views
+
+/// Quick action button for horizontal scroll
+struct QuickActionButton: View {
+    let icon: String
+    let title: String
+    let color: Color
+    var isLoading: Bool = false
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 8) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(color.gradient)
+                        .frame(width: 56, height: 56)
+                    
+                    if isLoading {
+                        ProgressView()
+                            .tint(.white)
+                    } else if !icon.isEmpty {
+                        Image(systemName: icon)
+                            .font(.system(size: 24, weight: .semibold))
+                            .foregroundStyle(.white)
+                    }
+                }
+                
+                Text(title)
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundStyle(.primary)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.center)
+                    .frame(width: 80)
+            }
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+
 
 #Preview {
     let mockRecord = CKRecord(recordType: "Mosque")
