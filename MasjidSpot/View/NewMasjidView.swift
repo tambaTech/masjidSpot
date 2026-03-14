@@ -191,7 +191,7 @@ struct NewMasjidView: View {
                             .focused($focusedField, equals: .website)
                             .keyboardType(.URL)
                             .textContentType(.URL)
-                            .autocapitalization(.none)
+                            .textInputAutocapitalization(.never)
                             
                             EnhancedFormTextField(
                                 icon: "clock.fill",
@@ -201,7 +201,7 @@ struct NewMasjidView: View {
                             .focused($focusedField, equals: .myMasjidUrl)
                             .keyboardType(.URL)
                             .textContentType(.URL)
-                            .autocapitalization(.none)
+                            .textInputAutocapitalization(.never)
                         }
                         
                         // MARK: - Description
@@ -639,7 +639,7 @@ struct FormTextField: View {
     var body: some View {
         ZStack(alignment: .leading) {
             Text(placeholder)
-                .foregroundColor(text.isEmpty ? Color(.placeholderText) : .mSPrimary)
+                .foregroundStyle(text.isEmpty ? Color(.placeholderText) : .mSPrimary)
                 .offset(y: text.isEmpty ? 0 : -30)
                 .scaleEffect(text.isEmpty ? 1: 0.8, anchor: .leading)
             TextField("", text: $text)
@@ -673,7 +673,7 @@ struct FormTextView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(placeholder)
-                .foregroundColor(text.isEmpty ? Color(.placeholderText) : .mSPrimary)
+                .foregroundStyle(text.isEmpty ? Color(.placeholderText) : .mSPrimary)
                 .offset(y: text.isEmpty ? 0 : -2)
                 .scaleEffect(text.isEmpty ? 1: 0.8, anchor: .leading)
             

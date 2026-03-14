@@ -9,6 +9,7 @@ import CloudKit
 import SwiftUI
 
 
+@MainActor
 @Observable class MasjidCloudStore {
     var cloudMosques: [CKRecord] = []
     var isLoading = false
@@ -23,40 +24,31 @@ import SwiftUI
         Task {
             do {
                 let status = try await CKContainer.default().accountStatus()
-                await MainActor.run {
-                    self.iCloudAvailable = (status == .available)
-                    if !self.iCloudAvailable {
-                        self.errorMessage = "iCloud is not available. Please sign in to your Apple ID in Settings."
-                    }
+                self.iCloudAvailable = (status == .available)
+                if !self.iCloudAvailable {
+                    self.errorMessage = "iCloud is not available. Please sign in to your Apple ID in Settings."
                 }
             } catch {
-                await MainActor.run {
-                    self.errorMessage = "Failed to check iCloud status: \(error.localizedDescription)"
-                }
+                self.errorMessage = "Failed to check iCloud status: \(error.localizedDescription)"
             }
         }
     }
     
     func fetchCloudMosques() async {
-        await MainActor.run {
-            isLoading = true
-            errorMessage = nil
-            cloudMosques.removeAll() // Clear existing data to prevent duplicates
-        }
+        isLoading = true
+        errorMessage = nil
+        cloudMosques.removeAll()
         
         do {
-            // Fetch data using Convenience API with proper sorting
             let cloudContainer = CKContainer.default()
             let publicDatabase = cloudContainer.publicCloudDatabase
             let predicate = NSPredicate(value: true)
             let query = CKQuery(recordType: "Masjid", predicate: predicate)
             
-            // Sort by creation date (newest first) to show recent data
             query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
             
             let results = try await publicDatabase.records(matching: query)
             
-            // Process results and handle partial failures gracefully
             let processedMosques = results.matchResults.compactMap { (recordID, result) -> CKRecord? in
                 do {
                     return try result.get()
@@ -66,15 +58,11 @@ import SwiftUI
                 }
             }
             
-            await MainActor.run {
-                self.cloudMosques = processedMosques
-                self.isLoading = false
-            }
+            self.cloudMosques = processedMosques
+            self.isLoading = false
         } catch {
-            await MainActor.run {
-                self.errorMessage = error.localizedDescription
-                self.isLoading = false
-            }
+            self.errorMessage = error.localizedDescription
+            self.isLoading = false
             print("Failed to fetch cloud mosques: \(error)")
         }
     }
@@ -101,10 +89,12 @@ import SwiftUI
             throw NSError(domain: "MasjidCloudStore", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to convert image to data"])
         }
         
-        let scaledImage = UIImage(data: imageData, scale: scalingFactor)!
+        guard let scaledImage = UIImage(data: imageData, scale: scalingFactor) else {
+            throw NSError(domain: "MasjidCloudStore", code: 2, userInfo: [NSLocalizedDescriptionKey: "Failed to create scaled image"])
+        }
 
         // Write the image to local file for temporary use
-        let imageFilePath = NSTemporaryDirectory() + mosque.name.replacingOccurrences(of: "/", with: "-")
+        let imageFilePath = NSTemporaryDirectory() + mosque.name.replacing("/", with: "-")
         let imageFileURL = URL(fileURLWithPath: imageFilePath)
         try scaledImage.jpegData(compressionQuality: 0.8)?.write(to: imageFileURL)
 

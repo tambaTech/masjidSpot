@@ -19,7 +19,7 @@ struct CloudMosqueAnnotationView: View {
             ZStack {
                 MapBalloonView()
                     .frame(width: 100, height: 70)
-                    .foregroundColor(.brandPrimary)
+                    .foregroundStyle(.brandPrimary)
                 
                 if let imageAsset = mosque["image"] as? CKAsset,
                    let imageData = try? Data(contentsOf: imageAsset.fileURL!),
@@ -31,7 +31,7 @@ struct CloudMosqueAnnotationView: View {
                 } else {
                     Image(systemName: "building.2")
                         .font(.title2)
-                        .foregroundColor(.white)
+                        .foregroundStyle(.white)
                 }
             }
             

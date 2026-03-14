@@ -18,8 +18,8 @@ struct MasjidSpotApp: App {
     }
      init() {
            let navBarAppearance = UINavigationBarAppearance()
-           navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor(named: "NavigationBarTitle") ?? UIColor.systemGreen, .font: UIFont(name: "ArialRoundedMTBold", size: 35)!]
-           navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor(named: "NavigationBarTitle") ?? UIColor.systemGreen, .font: UIFont(name: "ArialRoundedMTBold", size: 20)!]
+           navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor(named: "NavigationBarTitle") ?? UIColor.systemGreen, .font: UIFont(name: "ArialRoundedMTBold", size: 35) ?? .systemFont(ofSize: 35, weight: .bold)]
+           navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor(named: "NavigationBarTitle") ?? UIColor.systemGreen, .font: UIFont(name: "ArialRoundedMTBold", size: 20) ?? .systemFont(ofSize: 20, weight: .bold)]
            navBarAppearance.backgroundColor = .clear
            navBarAppearance.backgroundEffect = .none
            navBarAppearance.shadowColor = .clear

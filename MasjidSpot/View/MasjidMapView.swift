@@ -12,8 +12,8 @@ struct MasjidMapView: View {
     
     @State private var position: CustomMapCameraPosition = .automatic
     @State private var cloudStore = MasjidCloudStore()
-    @StateObject private var locationGeocoder = CloudKitLocationGeocoder()
-    @StateObject private var locationManager = LocationManager()
+    @State private var locationGeocoder = CloudKitLocationGeocoder()
+    @State private var locationManager = LocationManager()
     @State private var searchText = ""
     @State private var selectedMosque: CKRecord?
     @State private var showingMosqueDetail = false
@@ -31,6 +31,7 @@ struct MasjidMapView: View {
     @State private var sortBy: SortOption = .distance
     @State private var maxDistance: Double = 50.0 // km
     @State private var toastMessage: ToastMessage?
+    @AppStorage("appearance_mode") private var appearanceMode: AppearanceMode = .system
     
     // Track user interaction to prevent auto-centering
     @State private var userHasInteractedWithMap = false
@@ -104,6 +105,10 @@ struct MasjidMapView: View {
                 onUserInteraction: handleUserInteraction
             )
             .ignoresSafeArea()
+            .onTapGesture {
+                // Dismiss keyboard when tapping the map
+                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+            }
             
             // Enhanced overlay controls
             VStack {
@@ -118,8 +123,8 @@ struct MasjidMapView: View {
                     onFitAllMosques: { 
                         Task { 
                             await fitAllMosques()
-                            showToast("Showing all \(filteredMosques.count) mosques", type: .info)
-                        } 
+                           // showToast("Showing all \(filteredMosques.count) mosques", type: .info)
+                        }
                     },
                     onLookAround: { 
                         Task { 
@@ -248,11 +253,9 @@ struct MasjidMapView: View {
         selectedMosque = mosque
         
         Task {
-            try? await Task.sleep(nanoseconds: 300_000_000) // 0.3 seconds
-            await MainActor.run {
-                isLoadingMosqueDetail = false
-                showingMosqueDetail = true
-            }
+            try? await Task.sleep(for: .milliseconds(300))
+            isLoadingMosqueDetail = false
+            showingMosqueDetail = true
         }
     }
     
@@ -263,6 +266,8 @@ struct MasjidMapView: View {
     
     private func handleUserInteraction() {
         userHasInteractedWithMap = true
+        // Dismiss keyboard when user interacts with map
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
     
     // MARK: - Helper Functions
@@ -278,7 +283,7 @@ struct MasjidMapView: View {
         }
         
         Task {
-            try? await Task.sleep(nanoseconds: 2_000_000_000) // 2 seconds
+            try? await Task.sleep(for: .seconds(2))
             withAnimation(.spring(response: 0.3)) {
                 toastMessage = nil
             }
@@ -359,7 +364,7 @@ struct MasjidMapView: View {
         }
         
         // Re-enable auto-updates after a brief delay
-        try? await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds
+        try? await Task.sleep(for: .milliseconds(500))
         shouldUpdateCameraPosition = true
     }
     
@@ -396,7 +401,7 @@ struct MasjidMapView: View {
         }
         
         // Re-enable auto-updates after a brief delay
-        try? await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds
+        try? await Task.sleep(for: .milliseconds(500))
         shouldUpdateCameraPosition = true
     }
     
@@ -766,7 +771,7 @@ struct ToastView: View {
             
             Text(message)
                 .font(.system(size: 15, weight: .medium))
-                .foregroundStyle(.primary)
+                .foregroundStyle(Color.bPrimary)
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 14)
@@ -808,12 +813,19 @@ struct EnhancedMapTopBarControls: View {
                         .textFieldStyle(.plain)
                         .font(.system(size: 17))
                         .autocorrectionDisabled()
+                        .submitLabel(.search)
+                        .onSubmit {
+                            // Dismiss keyboard when search is submitted
+                            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                        }
                     
                     if !searchText.isEmpty {
                         Button(action: { 
                             searchText = ""
                             let generator = UIImpactFeedbackGenerator(style: .light)
                             generator.impactOccurred()
+                            // Dismiss keyboard when clearing search
+                            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                         }) {
                             Image(systemName: "xmark.circle.fill")
                                 .foregroundStyle(.secondary)
@@ -881,23 +893,10 @@ struct EnhancedMapTopBarControls: View {
                 } label: {
                     Image(systemName: "line.3.horizontal.decrease.circle.fill")
                         .font(.system(size: 24))
-                        .foregroundStyle(.primary)
+                        .foregroundStyle(Color.bPrimary)
                         .frame(width: 48, height: 48)
                         .background(.ultraThinMaterial, in: Circle())
                 }
-            }
-            
-            // Result count indicator
-            if mosqueCount != totalCount || !searchText.isEmpty {
-                HStack {
-                    Text("Showing \(mosqueCount) of \(totalCount) mosques")
-                        .font(.system(size: 13, weight: .medium))
-                        .foregroundStyle(.secondary)
-                    Spacer()
-                }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-                .background(.ultraThinMaterial, in: Capsule())
             }
         }
         .padding(.horizontal, 16)
@@ -1015,7 +1014,7 @@ struct EnhancedMapBottomBarControls: View {
                                     .overlay(
                                         Circle()
                                             .strokeBorder(
-                                                userHasInteractedWithMap ? Color.white.opacity(0.2) : Color.blue.opacity(0.5),
+                                                userHasInteractedWithMap ? Color.white.opacity(0.2) : Color.bPrimary.opacity(0.5),
                                                 lineWidth: 2
                                             )
                                     )
@@ -1054,7 +1053,7 @@ struct EnhancedLoadingOverlay: View {
             VStack(spacing: 4) {
                 Text(message)
                     .font(.system(size: 16, weight: .semibold))
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(Color.bPrimary)
                 
                 Text("Please wait...")
                     .font(.system(size: 13))
@@ -1087,7 +1086,7 @@ struct EnhancedEmptyStateView: View {
             VStack(spacing: 8) {
                 Text("No Mosques Found")
                     .font(.system(size: 22, weight: .bold))
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(.brandPrimary)
                 
                 if !searchText.isEmpty {
                     Text("No results for \"\(searchText)\"")
@@ -1100,10 +1099,10 @@ struct EnhancedEmptyStateView: View {
                     
                     Text("Current range: \(Int(maxDistance)) km")
                         .font(.system(size: 13, weight: .medium))
-                        .foregroundStyle(.blue)
+                        .foregroundStyle(.brandPrimary)
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
-                        .background(Color.blue.opacity(0.1), in: Capsule())
+                        .background(Color.bPrimary.opacity(0.1), in: Capsule())
                 }
             }
             
@@ -1118,8 +1117,8 @@ struct EnhancedEmptyStateView: View {
                     .foregroundStyle(.white)
                     .padding(.horizontal, 24)
                     .padding(.vertical, 12)
-                    .background(Color.blue.gradient, in: Capsule())
-                    .shadow(color: .blue.opacity(0.3), radius: 8, y: 4)
+                    .background(Color.bPrimary.gradient, in: Capsule())
+                    .shadow(color: .brandPrimary.opacity(0.3), radius: 8, y: 4)
                 }
             }
         }

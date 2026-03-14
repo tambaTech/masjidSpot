@@ -14,29 +14,30 @@ import SwiftUI
 struct DesignSystem {
     
     // MARK: - Typography
+    /// Uses semantic text styles that scale with Dynamic Type
     struct Typography {
         static func largeTitle(weight: Font.Weight = .bold) -> Font {
-            .system(size: 32, weight: weight, design: .rounded)
+            .largeTitle.weight(weight)
         }
         
         static func title(weight: Font.Weight = .bold) -> Font {
-            .system(size: 22, weight: weight)
+            .title2.weight(weight)
         }
         
         static func headline(weight: Font.Weight = .semibold) -> Font {
-            .system(size: 18, weight: weight)
+            .headline.weight(weight)
         }
         
         static func body(weight: Font.Weight = .regular) -> Font {
-            .system(size: 16, weight: weight)
+            .body.weight(weight)
         }
         
         static func caption(weight: Font.Weight = .medium) -> Font {
-            .system(size: 13, weight: weight)
+            .caption.weight(weight)
         }
         
         static func footnote(weight: Font.Weight = .regular) -> Font {
-            .system(size: 12, weight: weight)
+            .footnote.weight(weight)
         }
     }
     

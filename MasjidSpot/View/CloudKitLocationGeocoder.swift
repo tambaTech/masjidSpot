@@ -8,7 +8,6 @@
 import Foundation
 import CoreLocation
 import CloudKit
-import Combine
 
 /// Errors that can occur during geocoding
 enum GeocodingError: LocalizedError {
@@ -29,9 +28,10 @@ enum GeocodingError: LocalizedError {
 }
 
 @MainActor
-class CloudKitLocationGeocoder: ObservableObject {
+@Observable
+class CloudKitLocationGeocoder {
     private let geocoder = CLGeocoder()
-    @Published var geocodedLocations: [String: CLLocationCoordinate2D] = [:]
+    var geocodedLocations: [String: CLLocationCoordinate2D] = [:]
     
     /// Geocode a location string to coordinates
     func geocodeLocation(_ locationString: String) async throws -> CLLocationCoordinate2D {
@@ -79,7 +79,7 @@ class CloudKitLocationGeocoder: ObservableObject {
                 print("Geocoded \(mosque["name"] as? String ?? "Unknown"): \(coordinate)")
                 
                 // Add delay to respect rate limits
-                try await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds
+                try await Task.sleep(for: .milliseconds(500))
                 
             } catch {
                 print("Failed to geocode \(mosque["name"] as? String ?? "Unknown"): \(error.localizedDescription)")

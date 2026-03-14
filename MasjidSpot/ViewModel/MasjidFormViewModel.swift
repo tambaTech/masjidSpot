@@ -9,6 +9,7 @@
 
 import SwiftUI
 
+@MainActor
 @Observable class MasjidFormViewModel {
     // Input
     var name: String = ""

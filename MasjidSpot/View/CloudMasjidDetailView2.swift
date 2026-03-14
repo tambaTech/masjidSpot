@@ -11,12 +11,12 @@ import MapKit
 
 struct CloudMasjidDetailView: View {
     @Environment(\.dismiss) var dismiss
-    @Environment(\.managedObjectContext) var context
+
     var masjid: Masjid
     
     
     var body: some View {
-        ScrollView(showsIndicators: false){
+        ScrollView {
             
             VStack(alignment: .leading) {
                 Image(uiImage: masjid.image)
@@ -30,7 +30,7 @@ struct CloudMasjidDetailView: View {
                                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topTrailing)
                                 .padding()
                                 .font(.system(size: 30))
-                                .foregroundColor(masjid.isVisited ? .green : .white)
+                                .foregroundStyle(masjid.isVisited ? .green : .white)
                                 .padding(.top, 40)
                             
                             VStack(alignment: .leading, spacing: 5) {
@@ -70,7 +70,7 @@ struct CloudMasjidDetailView: View {
                         HStack {
                             Label(masjid.location, systemImage: "mappin.and.ellipse")
                                 .font(.caption)
-                                .foregroundColor(.secondary)
+                                .foregroundStyle(.secondary)
                         }
                         
                     }
@@ -83,7 +83,7 @@ struct CloudMasjidDetailView: View {
                         HStack {
                             Label(masjid.phone, systemImage: "phone")
                                 .font(.caption)
-                                .foregroundColor(.secondary)
+                                .foregroundStyle(.secondary)
                         }
                     }
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
@@ -151,7 +151,7 @@ fileprivate struct ActionButtonHStack: View {
                     
                     Text("Salah Time")
                         .font(.caption2)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                 }
                 
             }
@@ -177,7 +177,7 @@ fileprivate struct ActionButtonHStack: View {
                     STActionButton(color: .orange, imageName: "location.fill")
                     Text("Location")
                         .font(.caption2)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                 }
             }
             .accessibilityLabel(Text("Get directions"))
@@ -195,7 +195,7 @@ fileprivate struct ActionButtonHStack: View {
                     STActionButton(color: .green, imageName: "phone.fill")
                     Text("Call")
                         .font(.caption2)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                     
                 }
             }
@@ -212,7 +212,7 @@ fileprivate struct ActionButtonHStack: View {
                     STActionButton(color: .blue, imageName: "network")
                     Text("Website")
                         .font(.caption2)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                 }
             }
             .accessibilityRemoveTraits(.isButton)

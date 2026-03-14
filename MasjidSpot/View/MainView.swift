@@ -9,39 +9,29 @@ import SwiftUI
 
 struct MainView: View {
     
-    @State private var selectedTabIndex = 0
+    enum AppTab: Int, CaseIterable {
+        case masjids, browse, map, about
+    }
     
-   
+    @State private var selectedTab: AppTab = .masjids
     
     var body: some View {
-        TabView(selection: $selectedTabIndex) {
-            MasjidListView()
-                .tabItem {
-                    Image(systemName: "building.fill")
-                    Text("Masjids")
-                }
-                .tag(0)
+        TabView(selection: $selectedTab) {
+            Tab("Masjids", systemImage: "building.fill", value: .masjids) {
+                MasjidListView()
+            }
             
-            BrowseView()
-                 .tabItem {
-                     Label("Browse", systemImage: "safari")
-                 }
-                 .tag(1)
-               
+            Tab("Browse", systemImage: "safari", value: .browse) {
+                BrowseView()
+            }
             
-            MasjidMapView()
-                .tabItem {
-                    Label("Map", systemImage: "map.fill")
-                }
-                .tag(2)
-              
+            Tab("Map", systemImage: "map.fill", value: .map) {
+                MasjidMapView()
+            }
             
-            AboutView()
-                .tabItem {
-                    Label("About", systemImage: "info.circle.fill")
-                }
-                .tag(3)
-              
+            Tab("About", systemImage: "info.circle.fill", value: .about) {
+                AboutView()
+            }
         }
         .tint(Color("NavigationBarTitle"))
     }

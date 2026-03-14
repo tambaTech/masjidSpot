@@ -75,7 +75,7 @@ struct MasjidListView: View {
     }
     
     var visitedCount: Int {
-        masjids.filter { $0.isVisited }.count
+        masjids.count(where: \.isVisited)
     }
     
     var body: some View {
@@ -231,7 +231,7 @@ struct MasjidListView: View {
         generator.impactOccurred()
         
         // Simulate refresh (you can add CloudKit sync here)
-        try? await Task.sleep(nanoseconds: 1_000_000_000)
+        try? await Task.sleep(for: .seconds(1))
         
         let successGenerator = UINotificationFeedbackGenerator()
         successGenerator.notificationOccurred(.success)
@@ -319,7 +319,7 @@ struct FilterChipsView: View {
     @Binding var sortOption: MasjidListView.SortOption
     
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
+        ScrollView(.horizontal) {
             HStack(spacing: 10) {
                 Text("Filter:")
                     .font(.system(size: 14, weight: .medium))
@@ -634,14 +634,14 @@ struct BasicTextImageRow: View {
                 Text(masjid.name)
                     .font(.headline)
                     .fontWeight(.heavy)
-                    .foregroundColor(.brandPrimary)
+                    .foregroundStyle(.brandPrimary)
                     .lineLimit(1)
                 
                 
                 // Show the mosque location/address
                 Text(masjid.location.isEmpty ? "No address provided" : masjid.location)
                     .font(.subheadline)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
                     .multilineTextAlignment(.leading)
                    
                 

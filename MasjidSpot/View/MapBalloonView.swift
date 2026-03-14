@@ -25,5 +25,5 @@ struct MapBalloonView: Shape {
 #Preview {
     MapBalloonView()
       .frame(width: 300, height: 300)
-      .foregroundColor(.mSPrimary)
+      .foregroundStyle(Color.mSPrimary)
 }

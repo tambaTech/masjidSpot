@@ -276,7 +276,7 @@ struct MasjidDetailMapView: View {
                     HStack(spacing: DesignSystem.Spacing.medium) {
                         Image(systemName: "exclamationmark.triangle.fill")
                             .font(DesignSystem.Typography.body(weight: .semibold))
-                            .foregroundColor(.orange)
+                            .foregroundStyle(.orange)
                         
                         Text(error)
                             .font(DesignSystem.Typography.caption(weight: .medium))

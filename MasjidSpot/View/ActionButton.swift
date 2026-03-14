@@ -14,13 +14,13 @@ struct STActionButton: View {
      var body: some View {
        ZStack {
          Circle()
-           .foregroundColor(color)
+           .foregroundStyle(color)
            .frame(width: 60, height: 60)
          
          Image(systemName: imageName)
            .resizable()
            .scaledToFit()
-           .foregroundColor(.white)
+           .foregroundStyle(.white)
            .frame(width: 22, height: 22)
        }
      }

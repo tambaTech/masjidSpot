@@ -16,7 +16,7 @@ struct MasjidAnnotationView: View {
             ZStack {
                 MapBalloonView()
                     .frame(width: 100, height: 70)
-                    .foregroundColor(.brandPrimary)
+                    .foregroundStyle(.brandPrimary)
                 
                 
                 Image(uiImage: masjid.image)

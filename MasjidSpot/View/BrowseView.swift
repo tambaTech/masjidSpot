@@ -65,7 +65,7 @@ struct BrowseView: View {
                 )
                 .ignoresSafeArea()
                 
-                ScrollView(.vertical, showsIndicators: false) {
+                ScrollView(.vertical) {
                     VStack(spacing: 24) {
                         
                         // MARK: - Header Section
@@ -211,7 +211,7 @@ struct BrowseView: View {
                             }
                             
                             // Filter chips
-                            ScrollView(.horizontal, showsIndicators: false) {
+                            ScrollView(.horizontal) {
                                 HStack(spacing: 8) {
                                     ForEach(FilterOption.allCases, id: \.self) { filter in
                                         Button(action: {
@@ -440,11 +440,10 @@ struct BrowseView: View {
         // Apply search
         if !searchText.isEmpty {
             mosques = mosques.filter { masjid in
-                let name = masjid.masjidName.lowercased()
-                let location = masjid.masjidLocation?.lowercased() ?? ""
-                let query = searchText.lowercased()
+                let name = masjid.masjidName
+                let location = masjid.masjidLocation ?? ""
                 
-                return name.contains(query) || location.contains(query)
+                return name.localizedStandardContains(searchText) || location.localizedStandardContains(searchText)
             }
         }
         
@@ -487,10 +486,10 @@ struct BrowseView: View {
     
     private var recentMasjidsCount: Int? {
         let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date()) ?? Date()
-        let count = cloudStore.cloudMosques.filter { mosque in
+        let count = cloudStore.cloudMosques.count { mosque in
             guard let creationDate = mosque.creationDate else { return false }
             return creationDate > thirtyDaysAgo
-        }.count
+        }
         return count > 0 ? count : nil
     }
     
@@ -1026,10 +1025,6 @@ struct ModernLoadingView: View {
                         )
                         .frame(width: 50, height: 50)
                         .rotationEffect(.degrees(isAnimating ? 360 : 0))
-                        .animation(
-                            .linear(duration: 1.0).repeatForever(autoreverses: false),
-                            value: isAnimating
-                        )
                 }
                 
                 Text("Loading masjids...")
@@ -1044,7 +1039,9 @@ struct ModernLoadingView: View {
             .shadow(color: .black.opacity(0.2), radius: 30)
         }
         .onAppear {
-            isAnimating = true
+            withAnimation(.linear(duration: 1.0).repeatForever(autoreverses: false)) {
+                isAnimating = true
+            }
         }
     }
 }

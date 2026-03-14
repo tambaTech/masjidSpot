@@ -10,7 +10,6 @@ import SwiftData
 
 struct MasjidDetailView: View {
     @Environment(\.dismiss) var dismiss
-    @Environment(\.managedObjectContext) var context
     var masjid: Masjid
     
     @State private var isVisited: Bool = false
@@ -18,7 +17,7 @@ struct MasjidDetailView: View {
     @State private var imageOffset: CGFloat = 0
     
     var body: some View {
-        ScrollView(showsIndicators: false) {
+        ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 // MARK: - Hero Image Section
                 GeometryReader { geometry in
@@ -213,7 +212,7 @@ struct MasjidDetailView: View {
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
+            ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
                     let generator = UIImpactFeedbackGenerator(style: .light)
                     generator.impactOccurred()
@@ -230,7 +229,7 @@ struct MasjidDetailView: View {
                 }
             }
             
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .topBarTrailing) {
                 Button(action: {
                     showingShareSheet = true
                 }) {
@@ -317,7 +316,7 @@ fileprivate struct ModernActionButtons: View {
     @State private var showWebsite = false
     
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
+        ScrollView(.horizontal) {
             HStack(spacing: 12) {
                 // Prayer Times
                 ActionButton(
@@ -536,7 +535,7 @@ fileprivate struct ActionButtonHStack: View {
                     
                     Text("Salah Time")
                         .font(.caption2)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                 }
                 
             }
@@ -562,7 +561,7 @@ fileprivate struct ActionButtonHStack: View {
                     STActionButton(color: .orange, imageName: "location.fill")
                     Text("Location")
                         .font(.caption2)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                 }
             }
             .accessibilityLabel(Text("Get directions"))
@@ -580,7 +579,7 @@ fileprivate struct ActionButtonHStack: View {
                     STActionButton(color: .green, imageName: "phone.fill")
                     Text("Call")
                         .font(.caption2)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                     
                 }
             }
@@ -597,7 +596,7 @@ fileprivate struct ActionButtonHStack: View {
                     STActionButton(color: .blue, imageName: "network")
                     Text("Website")
                         .font(.caption2)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                 }
             }
             .accessibilityRemoveTraits(.isButton)

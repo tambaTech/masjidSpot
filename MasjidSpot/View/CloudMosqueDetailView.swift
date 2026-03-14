@@ -13,7 +13,7 @@ import CoreLocation
 struct CloudMosqueDetailView: View {
     let mosque: CKRecord
     @Environment(\.dismiss) private var dismiss
-    @StateObject private var locationGeocoder = CloudKitLocationGeocoder()
+    @State private var locationGeocoder = CloudKitLocationGeocoder()
     
     // State variables for sheet presentations
     @State private var showWebsite = false
@@ -143,7 +143,7 @@ struct CloudMosqueDetailView: View {
                         .padding(.top, 20)
                         
                         // Quick Action Buttons Row
-                        ScrollView(.horizontal, showsIndicators: false) {
+                        ScrollView(.horizontal) {
                             HStack(spacing: 12) {
                                 // Prayer Times Button
                                 if let myMasjidUrl = mosque["myMasjidUrl"] as? String, !myMasjidUrl.isEmpty {

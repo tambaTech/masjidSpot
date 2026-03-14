@@ -7,14 +7,14 @@
 
 import Foundation
 import CoreLocation
-import Combine
 
 @MainActor
-class LocationManager: NSObject, ObservableObject {
+@Observable
+class LocationManager: NSObject {
     private let locationManager = CLLocationManager()
     
-    @Published var currentLocation: CLLocation?
-    @Published var authorizationStatus: CLAuthorizationStatus = .notDetermined
+    var currentLocation: CLLocation?
+    var authorizationStatus: CLAuthorizationStatus = .notDetermined
     
     override init() {
         super.init()

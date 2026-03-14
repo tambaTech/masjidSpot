@@ -33,7 +33,7 @@ struct DirectionsOptionsView: View {
                             } else {
                                 Image(systemName: "building.2")
                                     .font(.title2)
-                                    .foregroundColor(.gray)
+                                    .foregroundStyle(.gray)
                                     .frame(width: 50, height: 50)
                                     .background(Color.gray.opacity(0.2))
                                     .clipShape(Circle())
@@ -47,7 +47,7 @@ struct DirectionsOptionsView: View {
                                 if let location = mosque["location"] as? String {
                                     Text(location)
                                         .font(.caption)
-                                        .foregroundColor(.secondary)
+                                        .foregroundStyle(.secondary)
                                         .lineLimit(2)
                                 }
                             }
@@ -58,7 +58,7 @@ struct DirectionsOptionsView: View {
                                 if let distance = formattedDistance(to: mosque) {
                                     Text(distance)
                                         .font(.caption)
-                                        .foregroundColor(.blue)
+                                        .foregroundStyle(.blue)
                                         .fontWeight(.medium)
                                 }
                                 
@@ -68,7 +68,7 @@ struct DirectionsOptionsView: View {
                                 }) {
                                     Image(systemName: "car.fill")
                                         .font(.title3)
-                                        .foregroundColor(.blue)
+                                        .foregroundStyle(.blue)
                                 }
                             }
                         }

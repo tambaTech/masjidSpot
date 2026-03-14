@@ -65,7 +65,7 @@ struct TutorialView: View {
                         } label: {
                             Text("Skip")
                                 .font(.system(size: 16, weight: .semibold))
-                                .foregroundColor(.secondary)
+                                .foregroundStyle(.secondary)
                                 .padding(.horizontal, 20)
                                 .padding(.vertical, 10)
                                 .background(
@@ -132,7 +132,7 @@ struct TutorialView: View {
                                   "checkmark.circle.fill" : "arrow.right")
                                 .font(.system(size: 18, weight: .semibold))
                         }
-                        .foregroundColor(.white)
+                        .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 18)
                         .background(
@@ -151,7 +151,7 @@ struct TutorialView: View {
                             Text("Swipe to explore features")
                                 .font(.system(size: 14, weight: .medium))
                         }
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                         .opacity(isAnimating ? 0.6 : 1.0)
                         .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: isAnimating)
                         .transition(.opacity)
@@ -255,7 +255,7 @@ struct EnhancedTutorialPage: View {
                 
                 Text(content.subHeading)
                     .font(.system(size: 16, weight: .regular))
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
                     .lineLimit(3)
                     .minimumScaleFactor(0.9)
@@ -318,7 +318,7 @@ struct TutorialPage: View {
             
             Text(subHeading)
                .font(.body)
-               .foregroundColor(.gray)
+               .foregroundStyle(.gray)
                .multilineTextAlignment(.center)
          }
          .padding(.horizontal, 40)

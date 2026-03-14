@@ -159,14 +159,14 @@ struct MapEmptyStateView: View {
         VStack(spacing: 16) {
             Image(systemName: "building.2")
                 .font(.system(size: 50))
-                .foregroundColor(.secondary)
+                .foregroundStyle(.secondary)
             Text("No mosques found")
                 .font(.title2)
-                .foregroundColor(.secondary)
+                .foregroundStyle(.secondary)
             if !searchText.isEmpty {
                 Text("Try adjusting your search")
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
             }
         }
         .padding(30)

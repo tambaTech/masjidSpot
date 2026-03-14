@@ -28,6 +28,7 @@ struct AboutView: View {
     @State private var showShareSheet = false
     @State private var showMailComposer = false
     @State private var showCopiedAlert = false
+    @AppStorage("appearance_mode") private var appearanceMode: AppearanceMode = .system
     
     // App information
     private let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
@@ -70,6 +71,19 @@ struct AboutView: View {
                                 color: .green,
                                 action: { showShareSheet = true }
                             )
+                        }
+                        .padding(.horizontal, DesignSystem.Spacing.medium)
+                    }
+                    
+                    // MARK: - Appearance Section
+                    VStack(spacing: DesignSystem.Spacing.medium) {
+                        DSSectionHeader("Appearance", subtitle: "Choose your preferred theme")
+                            .padding(.horizontal, DesignSystem.Spacing.medium)
+                        
+                        VStack(spacing: DesignSystem.Spacing.small) {
+                            ForEach(AppearanceMode.allCases, id: \.self) { mode in
+                                appearanceButton(mode: mode)
+                            }
                         }
                         .padding(.horizontal, DesignSystem.Spacing.medium)
                     }
@@ -124,6 +138,7 @@ struct AboutView: View {
             }
             .navigationTitle("About")
             .navigationBarTitleDisplayMode(.large)
+            .preferredColorScheme(appearanceMode.colorScheme)
             .sheet(item: $link) { item in
                 SafariView(url: item.rawValue)
                     .ignoresSafeArea()
@@ -231,6 +246,54 @@ struct AboutView: View {
         .buttonStyle(DSCardButtonStyle())
     }
     
+    // MARK: - Appearance Button
+    private func appearanceButton(mode: AppearanceMode) -> some View {
+        Button(action: {
+            let generator = UIImpactFeedbackGenerator(style: .light)
+            generator.impactOccurred()
+            appearanceMode = mode
+        }) {
+            HStack(spacing: DesignSystem.Spacing.medium) {
+                Image(systemName: mode.icon)
+                    .font(.system(size: 20, weight: .semibold))
+                    .foregroundStyle(Color.mSPrimary)
+                    .frame(width: 48, height: 48)
+                    .background(
+                        RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.medium, style: .continuous)
+                            .fill(Color.mSPrimary.opacity(0.15))
+                    )
+                
+                VStack(alignment: .leading, spacing: DesignSystem.Spacing.xxSmall) {
+                    Text(mode.rawValue)
+                        .font(DesignSystem.Typography.body(weight: .semibold))
+                        .foregroundStyle(.primary)
+                    
+                    Text(mode.description)
+                        .font(DesignSystem.Typography.caption(weight: .regular))
+                        .foregroundStyle(.secondary)
+                }
+                
+                Spacer()
+                
+                if appearanceMode == mode {
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.system(size: 22))
+                        .foregroundStyle(Color.mSPrimary)
+                }
+            }
+            .padding(DesignSystem.Spacing.medium)
+            .background(
+                RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.large, style: .continuous)
+                    .fill(Color(.secondarySystemBackground))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.large, style: .continuous)
+                            .stroke(appearanceMode == mode ? Color.mSPrimary.opacity(0.3) : Color.clear, lineWidth: 2)
+                    )
+            )
+        }
+        .buttonStyle(DSCardButtonStyle())
+    }
+    
     // MARK: - Social Button
     private func socialButton(image: String, color: Color, action: @escaping () -> Void) -> some View {
         Button(action: {
@@ -303,7 +366,8 @@ struct AboutView: View {
                 withAnimation(DesignSystem.Animation.springQuick) {
                     showCopiedAlert = true
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                Task {
+                    try? await Task.sleep(for: .seconds(2))
                     withAnimation(DesignSystem.Animation.springQuick) {
                         showCopiedAlert = false
                     }
